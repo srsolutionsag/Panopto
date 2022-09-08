@@ -1,4 +1,7 @@
 # Changelog
+## [1.7.0]
+* Prevent double authentication by adding instance name to iframe source
+    * Taken from the 'SOAP API - Instance name' field in the ILIAS plugin configuration
 
 ## [1.6.1]
 * Fix: fixed bug for host urls starting with letters h,t,p,s
