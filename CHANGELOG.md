@@ -1,4 +1,7 @@
 # Changelog
+## [1.7.1]
+* Fix: missing preview images
+
 ## [1.7.0]
 * Prevent double authentication by adding instance name to iframe source
     * Taken from the 'SOAP API - Instance name' field in the ILIAS plugin configuration
