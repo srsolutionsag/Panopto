@@ -52,7 +52,7 @@ class ilPanoptoConfigGUI extends ilPluginConfigGUI {
     /**
      * @param $cmd
      */
-    function performCommand($cmd) {
+    public function performCommand(string $cmd): void {
         switch ($cmd) {
             default:
                 $this->{$cmd}();

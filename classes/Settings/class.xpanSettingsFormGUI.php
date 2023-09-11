@@ -10,15 +10,7 @@ class xpanSettingsFormGUI extends ilPropertyFormGUI {
     const F_TITLE = 'title';
     const F_DESCRIPTION = 'description';
     const F_ONLINE = 'online';
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    
     /**
      * @var ilPanoptoPlugin
      */
@@ -30,7 +22,7 @@ class xpanSettingsFormGUI extends ilPropertyFormGUI {
     /**
      * @var xpanSettings
      */
-    protected $settings;
+    protected $xpan_settings;
 
     /**
      * xpanSettingsFormGUI constructor.
@@ -42,7 +34,7 @@ class xpanSettingsFormGUI extends ilPropertyFormGUI {
         $this->lng = $DIC['lng'];
         $this->pl = ilPanoptoPlugin::getInstance();
         $this->parent_gui = $parent_gui;
-        $this->settings = xpanSettings::find($this->parent_gui->getObjId());
+        $this->xpan_settings = xpanSettings::find($this->parent_gui->getObjId());
         $this->setTitle($this->lng->txt('settings'));
         $this->setFormAction($this->ctrl->getFormAction($parent_gui));
         $this->initForm();
@@ -75,7 +67,7 @@ class xpanSettingsFormGUI extends ilPropertyFormGUI {
         $values = array(
             self::F_TITLE => $this->parent_gui->getObject()->getTitle(),
             self::F_DESCRIPTION => $this->parent_gui->getObject()->getDescription(),
-            self::F_ONLINE => $this->settings->isOnline(),
+            self::F_ONLINE => $this->xpan_settings->isOnline(),
         );
         $this->setValuesByArray($values);
     }
@@ -93,8 +85,8 @@ class xpanSettingsFormGUI extends ilPropertyFormGUI {
         $this->parent_gui->getObject()->setDescription($this->getInput(self::F_DESCRIPTION));
         $this->parent_gui->getObject()->update();
 
-        $this->settings->setIsOnline($this->getInput(self::F_ONLINE));
-        $this->settings->update();
+        $this->xpan_settings->setIsOnline($this->getInput(self::F_ONLINE));
+        $this->xpan_settings->update();
 
         return true;
     }

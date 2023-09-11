@@ -16,14 +16,6 @@ class xpanConfigFormGUI extends ilPropertyFormGUI {
      */
     protected $pl;
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
      * @var ilDB
      */
     protected $db;

@@ -57,7 +57,8 @@ class xpanConfig extends ActiveRecord {
     protected $value;
 
 
-    public static function returnDbTableName() {
+    public static function returnDbTableName() : string
+    {
         return self::DB_TABLE_NAME;
     }
 

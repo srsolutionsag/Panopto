@@ -31,21 +31,21 @@ class ilPanoptoPlugin extends ilRepositoryObjectPlugin {
     /**
      * @return string
      */
-    function getPluginName() {
+    public function getPluginName(): string {
         return self::PLUGIN_NAME;
     }
 
     /**
      *
      */
-    protected function uninstallCustom() {
+    protected function uninstallCustom(): void {
         global $DIC;
         $DIC->database()->dropTable(xpanConfig::DB_TABLE_NAME);
         $DIC->database()->dropTable(xpanSettings::DB_TABLE_NAME);
         $DIC->database()->dropTable(SorterEntry::TABLE_NAME);
     }
 
-    public function allowCopy()
+    public function allowCopy() : bool
     {
         return true;
     }

@@ -24,7 +24,7 @@ class ilObjPanoptoGUI extends ilObjectPluginGUI {
     /**
      * @return bool|void
      */
-    function executeCommand() {
+    public function executeCommand(): void {
         $next_class = $this->ctrl->getNextClass();
         $cmd = $this->ctrl->getCmd();
 
@@ -147,7 +147,7 @@ class ilObjPanoptoGUI extends ilObjectPluginGUI {
     /**
      * @return bool
      */
-    protected function setTabs() {
+    protected function setTabs(): void {
         global $DIC;
         $lng = $DIC['lng'];
 
@@ -165,14 +165,12 @@ class ilObjPanoptoGUI extends ilObjectPluginGUI {
                 "ilpermissiongui",
             ), "perm"));
         }
-
-        return true;
     }
 
     /**
      * @param $cmd
      */
-    protected function performCommand($cmd) {
+    public function performCommand(string $cmd): void {
         $this->{$cmd}();
     }
 
@@ -186,14 +184,14 @@ class ilObjPanoptoGUI extends ilObjectPluginGUI {
     /**
      * @return ilObjPanopto
      */
-    public function getObject() {
+    public function getObject(): ?ilObject {
         return $this->object;
     }
 
     /**
      * @return ilPanoptoPlugin|object
      */
-    protected function getPlugin() {
+    protected function getPlugin(): ilPlugin {
         return ilPanoptoPlugin::getInstance();
     }
 
@@ -214,7 +212,7 @@ class ilObjPanoptoGUI extends ilObjectPluginGUI {
     /**
      * @return bool
      */
-    protected function supportsCloning() {
+    protected function supportsCloning(): bool {
         return false;
     }
 
@@ -222,21 +220,21 @@ class ilObjPanoptoGUI extends ilObjectPluginGUI {
     /**
      * @return string
      */
-    function getAfterCreationCmd() {
+    public function getAfterCreationCmd(): string {
         return self::CMD_MANAGE_VIDEOS;
     }
 
     /**
      * @return string
      */
-    function getStandardCmd() {
+    public function getStandardCmd(): string {
         return self::CMD_STANDARD;
     }
 
     /**
      * @return string
      */
-    function getType() {
+    public function getType(): string {
         return ilPanoptoPlugin::XPAN;
     }
 
