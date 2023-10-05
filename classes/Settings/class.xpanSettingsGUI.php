@@ -27,11 +27,11 @@ class xpanSettingsGUI extends xpanGUI {
         $xpanSettingsFormGUI = new xpanSettingsFormGUI($this);
         $xpanSettingsFormGUI->setValuesByPost();
         if (!$xpanSettingsFormGUI->saveForm()) {
-            ilUtil::sendFailure($this->pl->txt('msg_incomplete'));
+            $this->tpl->setOnScreenMessage('failure', $this->pl->txt('msg_incomplete'));
             $this->tpl->setContent($xpanSettingsFormGUI->getHTML());
             return;
         }
-        ilUtil::sendSuccess($this->pl->txt('msg_success'), true);
+        $this->tpl->setOnScreenMessage('success', $this->pl->txt('msg_success'), true);
         $this->ctrl->redirect($this, self::CMD_STANDARD);
     }
 }

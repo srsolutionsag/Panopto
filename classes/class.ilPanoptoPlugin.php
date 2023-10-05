@@ -10,21 +10,22 @@ class ilPanoptoPlugin extends ilRepositoryObjectPlugin {
 
     const PLUGIN_NAME = 'Panopto';
     const XPAN = 'xpan';
-
-    /**
-     * @var ilPanoptoPlugin
-     */
-    protected static $instance;
-
-
-    /**
-     * @return ilPanoptoPlugin
-     */
-    public static function getInstance() {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
+    private static ?self $instance = null;
+    
+    public static function getInstance(): self
+    {
+        if (!self::$instance instanceof self) {
+            global $DIC;
+            // ILIAS 8
+            if (isset($DIC['component.factory']) && $DIC['component.factory'] instanceof ilComponentFactory) {
+                $component_factory = $DIC['component.factory'];
+                self::$instance = $component_factory->getPlugin(self::XPAN);
+            } // ILIAS 7
+            else {
+                self::$instance = new self();
+            }
         }
-
+        
         return self::$instance;
     }
 

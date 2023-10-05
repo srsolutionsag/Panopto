@@ -67,6 +67,9 @@ class ilObjPanoptoListGUI extends ilObjectPluginListGUI {
      *                        'value' (string) => property value
      */
     public function getCustomProperties(array $prop): array {
+        if(!isset($this->obj_id)) {
+            return [];
+        }
         $props = parent::getCustomProperties(array());
 
         $settings = xpanSettings::find($this->obj_id);

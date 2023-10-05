@@ -11,32 +11,15 @@ class ilObjPanoptoAccess extends ilObjectPluginAccess {
      * @var ilObjPanoptoAccess
      */
     protected static $instance = NULL;
-
-
-    /**
-     * @return ilObjPanoptoAccess
-     */
-    public static function getInstance() {
+    
+    public static function getInstance(): self {
         if (self::$instance === NULL) {
             self::$instance = new self();
         }
 
         return self::$instance;
     }
-
-    protected ilObjUser $usr;
-
-
-    /**
-     *
-     */
-    public function __construct() {
-        global $DIC;
-
-        $this->access = $DIC->access();
-        $this->usr = $DIC->user();
-    }
-
+    
 
     /**
      * @param string   $a_cmd
@@ -87,7 +70,7 @@ class ilObjPanoptoAccess extends ilObjectPluginAccess {
     public static function _isOffline(int $obj_id): bool
     {
         /** @var xpanSettings $setting */
-        $setting = xpanSettings::find($a_obj_id);
+        $setting = xpanSettings::find($obj_id);
         return is_null($setting) || !$setting->isOnline();
     }
 
@@ -101,7 +84,16 @@ class ilObjPanoptoAccess extends ilObjectPluginAccess {
      *
      * @return bool
      */
-    protected static function checkAccess($a_cmd, $a_permission, $a_ref_id = NULL, $a_obj_id = NULL, $a_user_id = NULL) {
+    protected static function checkAccess(
+        $a_cmd,
+        $a_permission,
+        $a_ref_id = null,
+        $a_obj_id = null,
+        $a_user_id = null
+    ) : bool {
+        if ($a_ref_id === null) {
+            return true;
+        }
         return self::getInstance()->_checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id);
     }
 
@@ -112,10 +104,11 @@ class ilObjPanoptoAccess extends ilObjectPluginAccess {
      */
     public static function redirectNonAccess($class, $cmd = "") {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ctrl = $DIC->ctrl();
 
-        ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
+        $main_tpl->setOnScreenMessage('failure', $DIC->language()->txt("permission_denied"), true);
 
         if (is_object($class)) {
             $ctrl->clearParameters($class);

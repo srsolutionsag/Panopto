@@ -5,6 +5,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
  * Class ilPanoptoConfigGUI
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
+ *
+ * @ilCtrl_isCalledBy ilPanoptoConfigGUI: ilObjComponentSettingsGUI
  */
 class ilPanoptoConfigGUI extends ilPluginConfigGUI {
 
@@ -77,7 +79,7 @@ class ilPanoptoConfigGUI extends ilPluginConfigGUI {
         $xpanConfFormGUI = new xpanConfigFormGUI($this);
         $xpanConfFormGUI->setValuesByPost();
         if ($xpanConfFormGUI->saveObject()) {
-            ilUtil::sendSuccess($this->pl->txt('msg_success'), true);
+            $this->tpl->setOnScreenMessage('success', $this->pl->txt('msg_success'), true);
             $this->ctrl->redirect($this, self::CMD_STANDARD);
         }
         $this->tpl->setContent($xpanConfFormGUI->getHTML());

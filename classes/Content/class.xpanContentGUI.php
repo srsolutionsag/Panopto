@@ -62,7 +62,7 @@ class xpanContentGUI extends xpanGUI {
             $this->getObject()->getReferenceId());
 //        xpanRESTClient::getInstance()->getPlaylistsOfFolder($this->folder_id);
         if (!$content_objects['count']) {
-            ilUtil::sendInfo($this->pl->txt('msg_no_videos'));
+            $this->tpl->setOnScreenMessage('info', $this->pl->txt('msg_no_videos'));
             return;
         }
 
@@ -197,7 +197,7 @@ class xpanContentGUI extends xpanGUI {
             $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW)
         );
 
-        if ($DIC->access()->checkAccess("write", "", $this->parent_gui->ref_id)) {
+        if ($DIC->access()->checkAccess("write", "", $this->parent_gui->getRefId())) {
             $DIC->tabs()->addSubTab(self::TAB_SUB_SORTING,
                 $this->pl->txt('content_sorting'),
                 $DIC->ctrl()->getLinkTarget($this, self::CMD_SORTING)

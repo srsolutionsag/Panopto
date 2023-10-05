@@ -29,7 +29,7 @@ class ilObjPanoptoGUI extends ilObjectPluginGUI {
         $cmd = $this->ctrl->getCmd();
 
         if (!ilObjPanoptoAccess::hasReadAccess() && $next_class != "ilinfoscreengui" && $cmd != "infoScreen") {
-            ilUtil::sendFailure($this->plugin->txt('access_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->plugin->txt('access_denied'), true);
             $this->ctrl->returnToParent($this);
         }
         if (self::version()->is6()) {
@@ -111,7 +111,7 @@ class ilObjPanoptoGUI extends ilObjectPluginGUI {
                     break;
             }
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage());
             if (!$this->creation_mode) {
                 if (self::version()->is6()) {
                     $this->tpl->printToStdout();
