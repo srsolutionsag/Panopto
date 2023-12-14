@@ -28,7 +28,8 @@ class ilObjPanoptoAccess extends ilObjectPluginAccess {
     /**
      * @var ilAccessHandler
      */
-    protected $access;
+    //protected $access;
+    protected ilAccessHandler $access;
     /**
      * @var ilObjUser
      */
@@ -55,7 +56,7 @@ class ilObjPanoptoAccess extends ilObjectPluginAccess {
      *
      * @return bool
      */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id = NULL, $a_obj_id = NULL, $a_user_id = NULL) {
+    public function _checkAccess($a_cmd, $a_permission, $a_ref_id = NULL, $a_obj_id = NULL, $a_user_id = NULL) : bool {
         if ($a_ref_id === NULL) {
             $a_ref_id = filter_input(INPUT_GET, "ref_id");
         }
@@ -91,7 +92,7 @@ class ilObjPanoptoAccess extends ilObjectPluginAccess {
      *
      * @return bool
      */
-    static function _isOffline($a_obj_id)
+    static function _isOffline($a_obj_id) : bool
     {
         /** @var xpanSettings $setting */
         $setting = xpanSettings::find($a_obj_id);

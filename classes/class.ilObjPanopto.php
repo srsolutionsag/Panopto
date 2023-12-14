@@ -8,12 +8,13 @@ require_once __DIR__ . '/../vendor/autoload.php';
  */
 class ilObjPanopto extends ilObjectPlugin {
 
-    protected function initType()
+    protected function initType() : void
     {
         $this->setType(ilPanoptoPlugin::XPAN);
     }
 
-    protected function doCreate()
+    //protected function doCreate():
+    protected function doCreate(bool $clone_mode = false): void
     {
         $settings = new xpanSettings();
         $settings->setObjId($this->getId());
@@ -45,7 +46,7 @@ class ilObjPanopto extends ilObjectPlugin {
      * @param      $a_target_id
      * @param null $a_copy_id
      */
-    protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null)
+    protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null) : void
     {
         $settings = $new_obj->getSettings();
         $settings->setFolderExtId($this->getFolderExtId());

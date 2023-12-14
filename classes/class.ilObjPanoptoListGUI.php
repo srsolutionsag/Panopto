@@ -8,11 +8,13 @@ require_once __DIR__ . "/../vendor/autoload.php";
  */
 class ilObjPanoptoListGUI extends ilObjectPluginListGUI {
 
-    function getGuiClass() {
+    function getGuiClass(): string
+    {
         return ilObjPanoptoGUI::class;
     }
 
-    function initCommands() {
+    function initCommands(): array
+    {
         $this->timings_enabled = false;
         $this->subscribe_enabled = false;
         $this->payment_enabled = false;
@@ -47,7 +49,8 @@ class ilObjPanoptoListGUI extends ilObjectPluginListGUI {
      *
      * @return array
      */
-    public function getAlertProperties() {
+    public function getAlertProperties(): array
+    {
         $alert = array();
         foreach ((array)$this->getCustomProperties(array()) as $prop) {
             if ($prop['alert'] == true) {
@@ -66,7 +69,12 @@ class ilObjPanoptoListGUI extends ilObjectPluginListGUI {
      *                        'property' (string) => property name
      *                        'value' (string) => property value
      */
-    public function getCustomProperties($a_prop) {
+    public function getCustomProperties($a_prop): array
+    {
+        if(!isset($this->obj_id)) {
+            return [];
+        }
+
         $props = parent::getCustomProperties(array());
 
         $settings = xpanSettings::find($this->obj_id);

@@ -24,7 +24,7 @@ class SorterEntry extends ActiveRecord
      * @description Return the Name of your Database Table
      * @deprecated
      */
-    static function returnDbTableName()
+    static function returnDbTableName(): string
     {
         return self::TABLE_NAME;
     }

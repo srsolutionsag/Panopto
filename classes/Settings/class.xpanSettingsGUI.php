@@ -31,7 +31,8 @@ class xpanSettingsGUI extends xpanGUI {
             $this->tpl->setContent($xpanSettingsFormGUI->getHTML());
             return;
         }
-        ilUtil::sendSuccess($this->pl->txt('msg_success'), true);
+        $this->tpl->setOnScreenMessage("success", ilPanoptoPlugin::getInstance()->txt("msg_success"), true);
+       // ilUtil::sendSuccess($this->pl->txt('msg_success'), true);
         $this->ctrl->redirect($this, self::CMD_STANDARD);
     }
 }

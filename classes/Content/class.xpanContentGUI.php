@@ -27,6 +27,8 @@ class xpanContentGUI extends xpanGUI {
      */
     protected $folder_id;
 
+    protected $tpl;
+
     /**
      * xpanContentGUI constructor.
      * @param ilObjPanoptoGUI $parent_gui
@@ -34,7 +36,8 @@ class xpanContentGUI extends xpanGUI {
      */
     public function __construct(ilObjPanoptoGUI $parent_gui) {
         parent::__construct($parent_gui);
-
+        global $DIC;
+        $this->tpl = $DIC['tpl'];
         $this->client = xpanClient::getInstance();
 
         $folder = $this->client->getFolderByExternalId($this->getObject()->getFolderExtId());
@@ -54,6 +57,7 @@ class xpanContentGUI extends xpanGUI {
      * @throws Exception
      */
     protected function index() {
+
         $this->addSubTabs(self::TAB_SUB_SHOW);
         $content_objects = $this->client->getContentObjectsOfFolder(
             $this->folder_id,
@@ -62,7 +66,8 @@ class xpanContentGUI extends xpanGUI {
             $this->getObject()->getReferenceId());
 //        xpanRESTClient::getInstance()->getPlaylistsOfFolder($this->folder_id);
         if (!$content_objects['count']) {
-            ilUtil::sendInfo($this->pl->txt('msg_no_videos'));
+            $this->tpl->setOnScreenMessage("success", ilPanoptoPlugin::getInstance()->txt("msg_no_videos"), true);
+            //ilUtil::sendInfo($this->pl->txt('msg_no_videos'));
             return;
         }
 
@@ -196,7 +201,7 @@ class xpanContentGUI extends xpanGUI {
             $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW)
         );
 
-        if ($DIC->access()->checkAccess("write", "", $this->parent_gui->ref_id)) {
+        if ($DIC->access()->checkAccess("write", "", $this->parent_gui->getRefId())) {
             $DIC->tabs()->addSubTab(self::TAB_SUB_SORTING,
                 $this->pl->txt('content_sorting'),
                 $DIC->ctrl()->getLinkTarget($this, self::CMD_SORTING)

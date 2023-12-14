@@ -24,7 +24,7 @@ class ilObjPanoptoGUI extends ilObjectPluginGUI {
     /**
      * @return bool|void
      */
-    function executeCommand() {
+    function executeCommand() : void {
         $next_class = $this->ctrl->getNextClass();
         $cmd = $this->ctrl->getCmd();
 
@@ -111,7 +111,8 @@ class ilObjPanoptoGUI extends ilObjectPluginGUI {
                     break;
             }
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage());
+           // ilUtil::sendFailure($e->getMessage());
             if (!$this->creation_mode) {
                 if (self::version()->is6()) {
                     $this->tpl->printToStdout();
@@ -147,7 +148,8 @@ class ilObjPanoptoGUI extends ilObjectPluginGUI {
     /**
      * @return bool
      */
-    protected function setTabs() {
+    protected function setTabs(): void
+    {
         global $DIC;
         $lng = $DIC['lng'];
 
@@ -166,13 +168,14 @@ class ilObjPanoptoGUI extends ilObjectPluginGUI {
             ), "perm"));
         }
 
-        return true;
+        //return true;
     }
 
     /**
      * @param $cmd
      */
-    protected function performCommand($cmd) {
+    public function performCommand($cmd): void
+    {
         $this->{$cmd}();
     }
 
@@ -186,14 +189,16 @@ class ilObjPanoptoGUI extends ilObjectPluginGUI {
     /**
      * @return ilObjPanopto
      */
-    public function getObject() {
+    public function getObject(): ?ilObject
+    {
         return $this->object;
     }
 
     /**
      * @return ilPanoptoPlugin|object
      */
-    protected function getPlugin() {
+    protected function getPlugin(): ilPlugin
+    {
         return ilPanoptoPlugin::getInstance();
     }
 
@@ -214,7 +219,8 @@ class ilObjPanoptoGUI extends ilObjectPluginGUI {
     /**
      * @return bool
      */
-    protected function supportsCloning() {
+    protected function supportsCloning(): bool
+    {
         return false;
     }
 
@@ -222,21 +228,24 @@ class ilObjPanoptoGUI extends ilObjectPluginGUI {
     /**
      * @return string
      */
-    function getAfterCreationCmd() {
+    function getAfterCreationCmd(): string
+    {
         return self::CMD_MANAGE_VIDEOS;
     }
 
     /**
      * @return string
      */
-    function getStandardCmd() {
+    function getStandardCmd(): string
+    {
         return self::CMD_STANDARD;
     }
 
     /**
      * @return string
      */
-    function getType() {
+    function getType(): string
+    {
         return ilPanoptoPlugin::XPAN;
     }
 

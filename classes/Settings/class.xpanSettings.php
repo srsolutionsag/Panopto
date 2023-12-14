@@ -12,7 +12,8 @@ class xpanSettings extends ActiveRecord {
     /**
      * @return string
      */
-    public function getConnectorContainerName() {
+    public function getConnectorContainerName(): string
+    {
         return self::DB_TABLE_NAME;
     }
 

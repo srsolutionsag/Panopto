@@ -59,7 +59,7 @@ class xpanSortingTableGUI extends ilTable2GUI
     /**
      * @param ContentObject $content_object
      */
-    protected function fillRow($content_object)
+    protected function fillRow($content_object): void
     {
         $this->tpl->setVariable("VAL_THUMBNAIL", $content_object->getThumbnailUrl());
         $this->tpl->setVariable("VAL_TITLE", $content_object->getTitle());
