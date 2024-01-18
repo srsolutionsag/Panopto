@@ -20,7 +20,7 @@ class Session extends ContentObject
      * @param string $thumbnail_url
      * @param int    $duration
      */
-    public function __construct(string $id, string $title, string $description, string $thumbnail_url, int $duration)
+    public function __construct(string $id, string $title, string $description, string $thumbnail_url, ?int $duration)
     {
         $this->duration = $duration;
         parent::__construct($id, $title, $description, $thumbnail_url);
@@ -29,7 +29,7 @@ class Session extends ContentObject
     /**
      * @return int
      */
-    public function getDuration() : int
+    public function getDuration() : ?int
     {
         return $this->duration;
     }
