@@ -1,6 +1,8 @@
 <?php
 
 use srag\Plugins\Panopto\DTO\ContentObject;
+use League\OAuth1\Client as OAuth1;
+
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
@@ -64,6 +66,12 @@ class xpanContentGUI extends xpanGUI {
             true,
             $_GET['xpan_page'],
             $this->getObject()->getReferenceId());
+
+        //Autentificamos al cliente mediante la API de Panopto y oAuth1
+        $key = xpanUtil::getInstanceName();
+        $secret = xpanUtil::getApplicationKey();
+        $auth = new OAuth1\Credentials\ClientCredentials();
+
 //        xpanRESTClient::getInstance()->getPlaylistsOfFolder($this->folder_id);
         if (!$content_objects['count']) {
             $this->tpl->setOnScreenMessage("success", ilPanoptoPlugin::getInstance()->txt("msg_no_videos"), true);
@@ -147,10 +155,77 @@ class xpanContentGUI extends xpanGUI {
             $tpl->parseCurrentBlock();
         }
 
+        global $DIC;
+
+        $launch_url = 'https://' . xpanUtil::getServerName();
+        $key = xpanUtil::getInstanceName();
+        $secret = xpanUtil::getApplicationKey();
+
+        $launch_data = array();
+        $launch_data["user_id"] = xpanUtil::getUserIdentifier();
+        $launch_data["roles"] = "Instructor";
+        $launch_data["resource_link_id"] = $this->getObject()->getFolderExtId();
+        $launch_data["resource_link_title"] = xpanUtil::getExternalIdOfObjectById($this->getObject()->getFolderExtId());
+        $launch_data["lis_person_name_full"] = str_replace("'","`",($DIC->user()->getFullname()));
+        $launch_data["lis_person_name_family"] = str_replace("'","`",($DIC->user()->getLastname()));
+        $launch_data["lis_person_name_given"] = str_replace("'","`",($DIC->user()->getFirstname()));
+        $launch_data["lis_person_contact_email_primary"] = $DIC->user()->getEmail();
+        $launch_data["context_id"] = $this->getObject()->getFolderExtId();
+        $launch_data["context_title"] = xpanUtil::getExternalIdOfObjectById($this->getObject()->getFolderExtId());
+        $launch_data["context_label"] = "urn:lti:context-type:ilias/Object_" . $this->getObject()->getFolderExtId();
+        $launch_data["context_type"] = "urn:lti:context-type:ilias/Object";
+        $launch_data['launch_presentation_locale'] = 'de';
+        $launch_data['launch_presentation_document_target'] = 'iframe';
+
+        $now = new DateTime();
+
+        $launch_data["lti_version"] = "LTI-1p0";
+        $launch_data["lti_message_type"] = "basic-lti-launch-request";
+
+
+        # Basic LTI uses OAuth to sign requests
+        # OAuth Core 1.0 spec: http://oauth.net/core/1.0/
+        $launch_data["oauth_callback"] = "about:blank";
+        $launch_data["oauth_consumer_key"] = $key;
+        $launch_data["oauth_version"] = "1.0";
+        $launch_data["oauth_nonce"] = uniqid('', true);
+        $launch_data["oauth_timestamp"] = $now->getTimestamp();
+        $launch_data["oauth_signature_method"] = "HMAC-SHA1";
+
+        # In OAuth, request parameters must be sorted by name
+        $launch_data_keys = array_keys($launch_data);
+        sort($launch_data_keys);
+        $launch_params = array();
+        foreach ($launch_data_keys as $key) {
+            array_push($launch_params, $key . "=" . rawurlencode($launch_data[$key]));
+        }
+
+        $credentials = new OAuth1\Credentials\ClientCredentials();
+        $credentials->setIdentifier($key);
+        $credentials->setSecret($secret);
+//        $credentials->setCallbackUri('http://local.ilias52.com/Customizing/global/plugins/Services/Repository/RepositoryObject/Panopto/classes/bounce.php');
+
+        ksort($launch_data);
+        $signature = new OAuth1\Signature\HmacSha1Signature($credentials);
+        $oauth_signature = $signature->sign($launch_url . '/Panopto/BasicLTI/BasicLTILanding.aspx', $launch_data, 'POST');
+        $launch_data['oauth_signature'] = $oauth_signature;
+
+        $html = '<form id="lti_form" action="' . $launch_url . '/Panopto/BasicLTI/BasicLTILanding.aspx" method="post" target="basicltiLaunchFrame" enctype="application/x-www-form-urlencoded">';
+
+        foreach ($launch_data as $k => $v) {
+            $html .= "<input type='hidden' name='$k' value='$v'>";
+        }
+
+        $html .= '</form>';
+        $html .= '<iframe name="basicltiLaunchFrame"  id="basicltiLaunchFrame" src="" style="display:none;"></iframe>';
+
+//        dump($launch_data);
+//        exit;
+
         $this->tpl->addCss($this->pl->getDirectory() . '/templates/default/content_list.css?2');
         $this->tpl->addJavaScript($this->pl->getDirectory() . '/js/Panopto.js');
         $this->tpl->addOnLoadCode('Panopto.base_url = "https://' . xpanConfig::getConfig(xpanConfig::F_HOSTNAME) . '";');
-        $this->tpl->setContent($tpl->get() . $this->getModalPlayer());
+        $this->tpl->setContent($html . $tpl->get() .  $this->getModalPlayer());
     }
 
 
@@ -183,6 +258,7 @@ class xpanContentGUI extends xpanGUI {
         $modal->setType(ilModalGUI::TYPE_LARGE);
 //		$modal->setHeading('<div id="xoct_waiter_modal" class="xoct_waiter xoct_waiter_mini"></div>');
         $modal->setBody('<section><div id="xpan_video_container"></div></section>');
+        $this->tpl->addOnLoadCode('$("#lti_form").submit();');
         return $modal->getHTML();
     }
 
