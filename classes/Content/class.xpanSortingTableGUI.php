@@ -61,10 +61,10 @@ class xpanSortingTableGUI extends ilTable2GUI
      */
     protected function fillRow(array $a_set): void
     {
-        $this->tpl->setVariable("VAL_THUMBNAIL", $a_set->getThumbnailUrl());
-        $this->tpl->setVariable("VAL_TITLE", $a_set->getTitle());
-        $this->tpl->setVariable("VAL_DESCRIPTION", $a_set->getDescription());
-        $this->tpl->setVariable("VAL_MID", $a_set->getId());
+        $this->tpl->setVariable("VAL_THUMBNAIL", $a_set['thumbnail']);
+        $this->tpl->setVariable("VAL_TITLE", $a_set['title']);
+        $this->tpl->setVariable("VAL_DESCRIPTION", $a_set['description']);
+        $this->tpl->setVariable("VAL_MID", $a_set['id']);
     }
 
 
@@ -91,8 +91,17 @@ class xpanSortingTableGUI extends ilTable2GUI
     /**
      * @param ContentObject[] $content_objects
      */
-    protected function parseData(array $content_objects)
+    protected function parseData(array $content_objects) : void
     {
+        $content_objects = array_map(static function (ContentObject $content_object) {
+            return [
+                'thumbnail' => $content_object->getThumbnailUrl(),
+                'title' => $content_object->getTitle(),
+                'description' => $content_object->getDescription(),
+                'id' => $content_object->getId(),
+            ];
+        }, $content_objects);
+        
         $this->setData($content_objects);
     }
 }
