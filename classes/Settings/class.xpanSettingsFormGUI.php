@@ -42,6 +42,7 @@ class xpanSettingsFormGUI extends ilPropertyFormGUI {
     public function __construct(xpanSettingsGUI $parent_gui) {
         global $DIC;
         parent::__construct();
+        $this->http = $DIC->http();
         $this->ctrl = $DIC['ilCtrl'];
         $this->lng = $DIC['lng'];
         $this->pl = ilPanoptoPlugin::getInstance();
@@ -50,12 +51,8 @@ class xpanSettingsFormGUI extends ilPropertyFormGUI {
         $this->setTitle($this->lng->txt('settings'));
         $this->setFormAction($this->ctrl->getFormAction($parent_gui));
         $this->initForm();
-        // do it as early as possible
-        if (isset($DIC["http"])) {
-            $this->http = $DIC->http();
-        }
     }
-
+    
     /**
      *
      */
