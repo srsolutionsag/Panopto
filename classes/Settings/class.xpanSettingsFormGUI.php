@@ -41,6 +41,7 @@ class xpanSettingsFormGUI extends ilPropertyFormGUI {
      */
     public function __construct(xpanSettingsGUI $parent_gui) {
         global $DIC;
+        parent::__construct();
         $this->ctrl = $DIC['ilCtrl'];
         $this->lng = $DIC['lng'];
         $this->pl = ilPanoptoPlugin::getInstance();
