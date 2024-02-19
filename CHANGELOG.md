@@ -6,6 +6,14 @@
 * Prevent double authentication by adding instance name to iframe source
     * Taken from the 'SOAP API - Instance name' field in the ILIAS plugin configuration
 
+## [1.6.3]
+* FIX: https://github.com/fluxapps/Panopto/issues/8
+
+## [1.6.2]
+* Fix: fixed bug "Problems with special characters in names" https://github.com/fluxapps/Panopto/issues/5
+* Fix: fixed bug "No hostname prefix for thumbailUrl" https://github.com/fluxapps/Panopto/pull/7
+* special thanks to: jheim2, rob0403 
+
 ## [1.6.1]
 * Fix: fixed bug for host urls starting with letters h,t,p,s
 

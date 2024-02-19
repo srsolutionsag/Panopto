@@ -24,7 +24,7 @@ class ilObjPanoptoGUI extends ilObjectPluginGUI {
     /**
      * @return bool|void
      */
-    public function executeCommand(): void {
+    function executeCommand() : void {
         $next_class = $this->ctrl->getNextClass();
         $cmd = $this->ctrl->getCmd();
 
@@ -147,7 +147,8 @@ class ilObjPanoptoGUI extends ilObjectPluginGUI {
     /**
      * @return bool
      */
-    protected function setTabs(): void {
+    protected function setTabs(): void
+    {
         global $DIC;
         $lng = $DIC['lng'];
 

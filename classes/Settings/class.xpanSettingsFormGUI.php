@@ -5,12 +5,22 @@
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
+
+use ILIAS\HTTP;
 class xpanSettingsFormGUI extends ilPropertyFormGUI {
 
     const F_TITLE = 'title';
     const F_DESCRIPTION = 'description';
     const F_ONLINE = 'online';
-    
+
+    /**
+     * @var ilCtrl
+     */
+    protected ilCtrl $ctrl;
+    /**
+     * @var ilLanguage
+     */
+    protected ilLanguage $lng;
     /**
      * @var ilPanoptoPlugin
      */
@@ -23,6 +33,7 @@ class xpanSettingsFormGUI extends ilPropertyFormGUI {
      * @var xpanSettings
      */
     protected $xpan_settings;
+    protected HTTP\Services $http;
 
     /**
      * xpanSettingsFormGUI constructor.
@@ -38,6 +49,10 @@ class xpanSettingsFormGUI extends ilPropertyFormGUI {
         $this->setTitle($this->lng->txt('settings'));
         $this->setFormAction($this->ctrl->getFormAction($parent_gui));
         $this->initForm();
+        // do it as early as possible
+        if (isset($DIC["http"])) {
+            $this->http = $DIC->http();
+        }
     }
 
     /**

@@ -19,7 +19,29 @@ class ilObjPanoptoAccess extends ilObjectPluginAccess {
 
         return self::$instance;
     }
-    
+
+
+    /**
+     * @var ilAccessHandler
+     */
+    //protected $access;
+    protected ilAccessHandler $access;
+    /**
+     * @var ilObjUser
+     */
+    protected $usr;
+
+
+    /**
+     *
+     */
+    public function __construct() {
+        global $DIC;
+
+        $this->access = $DIC->access();
+        $this->usr = $DIC->user();
+    }
+
 
     /**
      * @param string   $a_cmd

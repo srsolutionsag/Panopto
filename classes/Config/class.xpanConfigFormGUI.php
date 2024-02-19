@@ -5,6 +5,9 @@
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
+//********NUEVOOO*******
+use ILIAS\HTTP;
+
 class xpanConfigFormGUI extends ilPropertyFormGUI {
 
     /**
@@ -16,9 +19,21 @@ class xpanConfigFormGUI extends ilPropertyFormGUI {
      */
     protected $pl;
     /**
+     * @var ilCtrl
+     */
+    protected ilCtrl $ctrl;
+    /**
+     * @var ilLanguage
+     */
+    protected ilLanguage $lng;
+    /**
      * @var ilDB
      */
     protected $db;
+//********NUEVOOO*******
+    protected HTTP\Services $http;
+
+    protected ?ilGlobalTemplateInterface $global_tpl = null;
 
     /**
      * xpanConfigFormGUI constructor.
@@ -32,6 +47,14 @@ class xpanConfigFormGUI extends ilPropertyFormGUI {
         $this->pl = ilPanoptoPlugin::getInstance();
         $this->parent_gui = $parent_gui;
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
+        //********NUEVOOO*******
+        // do it as early as possible
+        if (isset($DIC["http"])) {
+            $this->http = $DIC->http();
+        }
+        if (isset($DIC["tpl"])) {      // some unit tests will fail otherwise
+            $this->global_tpl = $DIC['tpl'];
+        }
 
         $this->initForm();
     }
@@ -257,6 +280,7 @@ class xpanConfigFormGUI extends ilPropertyFormGUI {
      * @return bool
      */
     public function saveObject() {
+       // $this->initForm();
         if (!$this->checkInput()) {
             return false;
         }

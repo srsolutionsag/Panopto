@@ -1,5 +1,14 @@
 Panopto
 ==========
+
+![GitHub closed issues](https://img.shields.io/github/issues-closed/fluxapps/panopto?style=flat-square&color=success)
+[![GitHub issues](https://img.shields.io/github/issues/fluxapps/panopto?style=flat-square&color=yellow)](https://github.com/fluxapps/panopto/issues)
+![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/fluxapps/panopto?style=flat-square&color=success)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/fluxapps/panopto?style=flat-square&color=yellow)
+[![GitHub forks](https://img.shields.io/github/forks/fluxapps/panopto?style=flat-square&color=blueviolet)](https://github.com/fluxapps/panopto/network)
+[![GitHub stars](https://img.shields.io/github/stars/fluxapps/panopto?style=flat-square&color=blueviolet)](https://github.com/fluxapps/panopto/stargazers)
+
+
 ## Description
 This plugin can be installed in the LMS ILIAS to implement an interface to the external video platform Panopto. It introduces a new repository object type, in which video from Panopto can be added and viewed, as well as new videos can be recorded and  uploaded directly to Panopto.
 
@@ -78,16 +87,8 @@ This is an OpenSource project by studer + raimann ag (https://fluxlabs.ch)
 
 This project is licensed under the GPL v3 License
 
-## Contributing :purple_heart:
-Please ...
-1. ... register an account at https://git.fluxlabs.ch
-2. ... write us an email: support@fluxlabs.ch
-3. ... we give you access to the projects you like to contribute :fire:
+## Maintenance
+fluxlabs ag, support@fluxlabs.ch
 
-
-## Adjustment suggestions / bug reporting :feet:
-Please ...
-1. ... register an account at https://git.fluxlabs.ch
-2. ... ask us for a sla: support@fluxlabs.ch :kissing_heart:
-3. ... we will give you the access with the possibility to read and create issues or to discuss feature requests with us.
+This project is maintained by fluxlabs. 
 
